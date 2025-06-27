@@ -23,8 +23,8 @@ const Header = () => {
       active: !authStatus,
     },
     {
-      name: "All Post",
-      slug: "/all-post",
+      name: "All Posts",
+      slug: "/all-posts",
       active: authStatus,
     },
     {
@@ -33,8 +33,6 @@ const Header = () => {
       active: authStatus,
     },
   ];
-
-  console.log(authStatus);
 
   return (
     <header>
@@ -58,7 +56,7 @@ const Header = () => {
                 </li>
               ) : null
             )}
-            {authStatus && <li>{LogoutButton}</li>}
+            {authStatus && <li><LogoutButton /></li>}
           </ul>
         </nav>
       </Container>

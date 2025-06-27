@@ -74,10 +74,9 @@ const Login = () => {
               })}
             />
 
-            <Button
-            type="button"
-            clasName="w-full"
-            > Login </Button>
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
           </div>
         </form>
       </div>

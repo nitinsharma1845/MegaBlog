@@ -22,9 +22,8 @@ export class AuthService {
         name
       );
       if (userAccount) {
-        //call another method fro direct login
-
-        this.login(email, password);
+        //call another method from direct login
+        return this.login({email, password});
       } else {
         return userAccount;
       }

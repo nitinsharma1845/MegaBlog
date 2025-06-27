@@ -3,6 +3,7 @@ import service from "../appWrite/Databaseconfig";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ $id, title, featuredImage }) => {
+  console.log(service.getFilePreview(featuredImage))
   return (
     <Link to={`/post/${$id}`}>
       <div className="w-full bg-gray-100 rounded-xl p-4 ">
@@ -10,7 +11,7 @@ const PostCard = ({ $id, title, featuredImage }) => {
           <img
             src={service.getFilePreview(featuredImage)}
             alt={title}
-            className="rounde-xl "
+            className="rounde-xl w-full object-cover "
           />
         </div>
         <h2 className="text-xl font-bold">{title}</h2>

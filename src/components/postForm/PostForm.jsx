@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PostForm = ({ post }) => {
-  const { watch, setValue, control, getValues, handleSubmit } = useForm({
-    defaultValues: {
-      title: post?.title || "",
-      slug: post?.slug || "",
-      content: post?.content || "",
-      status: post?.status || "active",
-    },
-  });
+  const { register, watch, setValue, control, getValues, handleSubmit } =
+    useForm({
+      defaultValues: {
+        title: post?.title || "",
+        slug: post?.slug || "",
+        content: post?.content || "",
+        status: post?.status || "active",
+      },
+    });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData); // can be auth
+  const userData = useSelector((state) => state.auth.userData); 
+  console.log(userData.userData.$id)
 
   const submit = async (data) => {
     if (post) {
@@ -38,11 +40,13 @@ const PostForm = ({ post }) => {
       const file = data.image[0];
 
       if (file) {
-        const fileId = file.$id;
+        const uploadFile = await services.uploadFile(file)
+        const fileId = uploadFile.$id;
         data.featuredImage = fileId;
+
         const dbPost = await services.createPost({
           ...data,
-          userId: userData.$id,
+          userId: userData.userData.$id,
         });
 
         if (dbPost) {
@@ -53,12 +57,12 @@ const PostForm = ({ post }) => {
   };
 
   const slugTransform = useCallback((value) => {
-    if (value && typeof value === "String") {
+    if (value && typeof value === "string") {
       return value
         .trim()
         .toLowerCase()
-        .replace(/^ [a-zA-z\d\s]+/g, "-")
-        .replace(/\s/g, "-");
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
     } else {
       return "";
     }
@@ -78,7 +82,7 @@ const PostForm = ({ post }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-wrap">
+      <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
         <div className="w-2/3 px-2">
           <Input
             lable="Title : "
@@ -93,7 +97,7 @@ const PostForm = ({ post }) => {
             className=" mb-4"
             {...register("slug", { required: true })}
             onInput={(e) => {
-              setValue("slug", slugTransform(e.currenTarget.value), {
+              setValue("slug", slugTransform(e.currentTarget.value), {
                 shouldValidate: true,
               });
             }}

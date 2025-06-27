@@ -1,15 +1,15 @@
 const Button = ({
-  Children,
+  children,
   type = "button",
   bgColor = "bg-blue-600",
   textColor = "text-gray-200",
-  clasName = "",
+  className = "",
   ...props
 }) => {
   return <button
-  className={`px-4 py-2 rounded-lg ${clasName} ${bgColor} ${textColor}`} 
+  className={`px-4 py-2 rounded-lg ${className} ${bgColor} ${textColor}`} 
   {...props}
-  >{Children}</button>;
+  >{children}</button>;
 };
 
 export default Button;
